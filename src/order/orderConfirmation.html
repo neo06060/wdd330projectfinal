@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Order Confirmation</title>
+<link rel="stylesheet" href="../css/style.css">
+<style>
+  body { font-family: sans-serif; padding: 2rem; }
+  .order-container { max-width: 600px; margin: auto; background: #fff; padding: 2rem; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+  h2 { text-align: center; margin-bottom: 1rem; }
+  pre { background: #f4f4f4; padding: 1rem; border-radius: 6px; overflow-x: auto; }
+  button { display: block; margin: 1rem auto 0; padding: 0.8rem 1.5rem; font-size: 1rem; background: #007bff; color: white; border: none; border-radius: 6px; cursor: pointer; }
+  button:hover { background: #0056b3; }
+</style>
+</head>
+<body>
+<div id="headercontainer"></div>
+<div class="order-container">
+  <h2>Order Confirmation</h2>
+  <p>Thank you for your order! Here are the details:</p>
+  <pre id="orderDetails">Loading...</pre>
+  <button id="downloadBtn">Download Order</button>
+</div>
+
+<script type="module">
+document.addEventListener("DOMContentLoaded", () => {
+  const order = JSON.parse(sessionStorage.getItem("lastOrder") || "{}");
+  const pre = document.getElementById("orderDetails");
+
+  if(!order.customer) {
+    pre.textContent = "No order data found.";
+    return;
+  }
+
+  const formatted = `
+Order Date: ${order.date}
+
+Customer Information:
+${Object.entries(order.customer).map(([k,v]) => `${k}: ${v}`).join("\n")}
+
+Items:
+${order.items.map(it => `${it.Name ?? "Item"} x${it.quantity} - $${((it.FinalPrice ?? it.Price) * it.quantity).toFixed(2)}`).join("\n")}
+
+Summary:
+Subtotal: $${order.summary.subtotal.toFixed(2)}
+Tax: $${order.summary.tax.toFixed(2)}
+Shipping: $${order.summary.shipping.toFixed(2)}
+Total: $${order.summary.total.toFixed(2)}
+`;
+
+  pre.textContent = formatted;
+
+  document.getElementById("downloadBtn").addEventListener("click", () => {
+    const blob = new Blob([formatted], { type: "text/plain" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "order.txt";
+    a.click();
+    URL.revokeObjectURL(url);
+  });
+});
+</script>
+
+<div id="footercontainer"></div>
+<script type="module">
+  import { loadHeaderFooter } from "../js/loadHeaderFooter.js";
+  loadHeaderFooter();
+</script>
+</body>
+</html>

@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Clockwork´s Heart | Home</title>
+  <link rel="stylesheet" href="src/css/styles2.css" />
+  <script type="module" src="src/js/main.js"></script>
+  <script type="module" src="src/js/navbarSearch.js"></script>
+  <script type="module" src="src/js/chat.js"></script>
+  <link rel="icon" type="image/png" href="src/images/favicon.png" />
+</head>
+<body class="index-page">
+  <div class="side-ad left">Ad Space</div>
+  <div class="side-ad right">Ad Space</div>
+  <header class="divider">
+    <div class="logo">
+      <img src="src/images/logo2.png" alt="Old Clock" />
+      <a href="index.html"> Clockwork´s Heart</a>
+    </div>
+    <div class="search-container">
+      <input type="text" id="navbarSearch" placeholder="Search products..." />
+    </div>
+    <div class="cart">
+      <a href="">
+        <img src="src/images/cart.png">
+      </a>
+    </div>
+  </header>
+  <main class="divider">
+    <div class="hero">
+      <img src="src/images/Panoramic.jpg" alt="image of a lot of clocks" />
+      <div class="mission">
+        <p>
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque numquam nisi voluptatum, porro iste voluptates eos tempore laborum ab, harum soluta amet, corrupti esse recusandae odio corporis hic animi aliquam!
+        </p>
+      </div>
+    </div>
+    <section class="products">
+      <h2>Most common products ordered</h2>
+      <div class="divider"></div>
+      <ul class="product-list">
+        <li class="product-card">
+          <a href="src/product_pages/Gustavbeckerwall.html">
+            <img src="src/images/clocks/clock1.png" alt="Gustav Becker Wall clock 1885 model" />
+            <h3 class="card__brand">Gustav Becker</h3>
+            <h2 class="card__name">Wall clock (1885 model)</h2>
+            <p class="product-card__price">$199.99</p>
+          </a>
+        </li>
+        <li class="product-card">
+          <a href="src/product_pages/Seththomasclock.html">
+            <img src="src/images/clocks/clock2.jpg" alt="Seth Thomas OGEE mantel clock" />
+            <h3 class="card__brand">Seth Thomas</h3>
+            <h2 class="card__name">OGEE mantel clock</h2>
+            <p class="product-card__price">$199.99</p>
+          </a>
+        </li>
+        <li class="product-card">
+          <a href="src/product_pages/Junghansgermancalendar.html">
+            <img src="src/images/clocks/clock3.png" alt="Junghans German Callendar clock" />
+            <h3 class="card__brand">Junghans</h3>
+            <h2 class="card__name">German wall calendar clock</h2>
+            <p class="product-card__price">$349.99</p>
+          </a>
+        </li>
+        <li class="product-card">
+          <a href="src/product_pages/Ansoniaamerican.html">
+            <img src="src/images/clocks/clock4.jpg" alt="Ansonia American wall clock" />
+            <h3 class="card__brand">Ansonia</h3>
+            <h2 class="card__name">American wall clock</h2>
+            <p class="product-card__price">$69.99</p>
+          </a>
+        </li>
+      </ul>
+    </section>
+  </main>
+  <footer id="main-footer">
+    &copy;2025 🕰️ Clockwork´s heart, we keep it classy as allways🕰️
+  </footer>
+  <div class="chat-widget">
+    <button id="chat-toggle">Need help? Click here!</button>
+    <div class="chat-box" id="chat-box">
+      <div class="chat-header">
+        Support Chat
+        <button id="chat-close">✖</button>
+      </div>
+      <div class="chat-messages" id="chat-messages"></div>
+      <input type="text" id="chat-input" placeholder="Type your question..." />
+    </div>
+  </div>
+</body>
+</html>
