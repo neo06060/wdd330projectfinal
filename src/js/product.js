@@ -1,6 +1,11 @@
 import { getParam, setLocalStorage, getLocalStorage, updateCartCount } from "./utils.mjs";
 import ProductData from "./ProductData.mjs";
 
+// ---------- Dynamic Base Path ----------
+const BASE_PATH = window.location.pathname.includes("/src/")
+  ? window.location.pathname.split("/src/")[0] // GitHub Pages
+  : ""; // localhost
+
 // ---------- Helpers ----------
 function safeBrand(b) {
   if (!b) return "";
@@ -26,11 +31,11 @@ function rawImageFrom(p) {
 }
 
 function resolveImageForProduct(raw) {
-  if (!raw) return "/src/images/noun_Tent_2517.svg";
+  if (!raw) return `${BASE_PATH}/src/images/choesee.png`;
   if (/^https?:\/\//i.test(raw) || raw.startsWith("data:")) return raw;
-  if (raw.startsWith("/")) return raw;
-  if (raw.startsWith("src/")) return "/" + raw;
-  return "/src/images/noun_Tent_2517.svg";
+  if (raw.startsWith("/")) return `${BASE_PATH}${raw}`;
+  if (raw.startsWith("src/")) return `${BASE_PATH}/${raw}`;
+  return `${BASE_PATH}/src/images/choesee.png`;
 }
 
 function imageUrl(p) {
@@ -59,7 +64,7 @@ function template(p) {
   const pieceList = pieces.map((piece, idx) => `
     <li class="piece-item">
       <div style="display:flex;align-items:center;gap:.5rem;">
-        <img src="/src/images/pieces/${pieceMap[idx]}.png" alt="${piece}"/>
+        <img src="${BASE_PATH}/src/images/pieces/${pieceMap[idx]}.png" alt="${piece}"/>
         <span>${piece} - $${piecePrices[idx].toFixed(2)}</span>
       </div>
       <button class="add-piece-btn" data-piece="${pieceMap[idx]}" data-price="${piecePrices[idx]}">Add</button>
@@ -144,7 +149,7 @@ async function init() {
           Id: `${p.id || p.Id}-${pieceName}`,
           Name: `${pieceName} for ${p.name || p.Name}`,
           Brand: safeBrand(p.Brand ?? p.brand),
-          Image: `/src/images/pieces/${pieceName}.png`,
+          Image: `${BASE_PATH}/src/images/pieces/${pieceName}.png`,
           FinalPrice: piecePrice,
           quantity: 1
         });
