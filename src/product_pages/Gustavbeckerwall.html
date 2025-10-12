@@ -1,20 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Cedar Ridge Rimrock</title>
+  <title>Gustav Becker Wall clock (1885 model)</title>
 
   <!-- CSS -->
   <link rel="stylesheet" href="../css/style.css" />
-  <link rel="icon" href="data:," />
+    <link rel="icon" type="image/png" href="/src/images/favicon.png" />
 
   <!-- External modules -->
   <script type="module" src="../js/product.js"></script>
   <script type="module" src="../js/main.js"></script>
 </head>
-
 <body>
   <div id="headercontainer"></div>
 
@@ -22,35 +20,38 @@
     <div class="product-detail">
       <h2 id="productName"></h2>
       <div class="divider"></div>
-      <img id="productImage" src="ProductImage" />
-      <div class="divider"></div>
+      <div class="product-image">
+        <img id="productImage" src="" alt="Clock Image" />
+      </div>
       <p id="productPrice"></p>
       <div class="product-info">
-        <p id="productColor"></p>
         <p id="productBrand"></p>
         <div id="productDescription"></div>
-        <button id="addToCart" type="button">Add to Cart</button>
+
+        <div class="product-buttons">
+          <button id="addToCart" class="primary-btn" type="button">Add to Cart</button>
+          <button id="viewPieces" class="secondary-btn" type="button">View Pieces</button>
+          <button id="viewYoutube" class="secondary-btn" type="button">Watch Video</button>
+        </div>
       </div>
     </div>
   </main>
 
+  <div class="popup" id="piecesPopup">
+    <div class="popup-content">
+      <button id="closePiecesPopup">✕</button>
+      <ul id="pieceList"></ul>
+    </div>
+  </div>
+
+  <!-- YouTube popup -->
+  <div class="popup" id="youtubePopup">
+    <div class="popup-content">
+      <button id="closeYoutubePopup">X</button>
+      <iframe id="youtubeFrame" width="100%" height="315" src="" frameborder="0" allowfullscreen></iframe>
+    </div>
+  </div>
+
   <div id="footercontainer"></div>
-
-  <!-- Inline module must be inside body, before closing -->
-  <script type="module">
-    import ProductData from "../js/ProductData.mjs";
-    import ProductDetails from "../js/ProductDetails.mjs";
-    import { loadHeaderFooter } from "../js/loadHeaderFooter.js";
-
-    const dataSource = new ProductData("../json/clocks");
-
-    const productId = "1112A";
-
-    const productDetails = new ProductDetails(productId, dataSource);
-    productDetails.init();
-
-    loadHeaderFooter();
-  </script>
 </body>
-
 </html>
