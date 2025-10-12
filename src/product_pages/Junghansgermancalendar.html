@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Marmot Ajax 3</title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="../css/style.css" />
+  <link rel="icon" href="data:," />
+
+  <!-- External modules -->
+  <script type="module" src="../js/product.js"></script>
+  <script type="module" src="../js/main.js"></script>
+</head>
+
+<body>
+  <div id="headercontainer"></div>
+
+  <main class="divider">
+    <div class="product-detail">
+      <h2 id="productName"></h2>
+      <div class="divider"></div>
+      <img id="productImage" src="ProductImage" />
+      <div class="divider"></div>
+      <p id="productPrice"></p>
+      <div class="product-info">
+        <p id="productColor"></p>
+        <p id="productBrand"></p>
+        <div id="productDescription"></div>
+        <button id="addToCart" type="button">Add to Cart</button>
+      </div>
+    </div>
+  </main>
+
+  <div id="footercontainer"></div>
+
+  <script type="module">
+    import ProductData from "../js/ProductData.mjs";
+    import ProductDetails from "../js/ProductDetails.mjs";
+    import { loadHeaderFooter } from "../js/loadHeaderFooter.js";
+
+    const dataSource = new ProductData("../json/clocks");
+
+    const productId = "1113A";
+
+    const productDetails = new ProductDetails(productId, dataSource);
+    productDetails.init();
+
+    loadHeaderFooter();
+  </script>
+</body>
+
+</html>

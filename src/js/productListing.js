@@ -100,7 +100,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     await loadHeaderFooter();
     updateCartCount();
 
-    const category = getParam("category") || "tents";
+    const category = getParam("category") || "ckocks";
     const title = document.querySelector(".category-title");
     if (title) title.textContent = toTitleCase(category);
 

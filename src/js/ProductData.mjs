@@ -28,7 +28,7 @@ function localJsonCandidates(category) {
 }
 
 export default class ProductData {
-  constructor(category) { this.category = category || "tents"; this._cache = null; }
+  constructor(category) { this.category = category || "clocks"; this._cache = null; }
 
   async getData() {
     if (this._cache) return this._cache;
@@ -80,7 +80,7 @@ export default class ProductData {
     } catch { }
 
     // Scanner toutes les catégories locales courantes connues
-    for (const cat of ["tents", "backpacks", "sleeping-bags", "hammocks"]) {
+    for (const cat of ["clocks"]) {
       for (const u of localJsonCandidates(cat)) {
         try {
           const list = await fetchJson(u);

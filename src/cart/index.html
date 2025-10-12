@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sleep Outside | Cart</title>
+
+  <link rel="stylesheet" href="../css/style.css" />
+  <link rel="icon" href="data:," />
+  <!-- JS du panier uniquement (main.js inutile ici) -->
+  <script type="module" src="../js/cart.js"></script>
+</head>
+
+<body>
+  <div id="headercontainer"></div>
+
+  <main class="divider">
+    <section class="products">
+      <h1>My Cart</h1>
+
+      <!-- Items du panier rendus par cart.js -->
+      <ul class="product-list"></ul>
+
+      <!-- État panier vide (géré par cart.js si tu veux l'utiliser) -->
+      <p class="cart-empty" hidden>Your cart is empty.</p>
+
+      <!-- Résumé + actions -->
+      <div class="cart-summary">
+        <p class="cart-total">$0.00</p>
+        <div class="cart-controls" style="gap:12px">
+          <button id="clearCart" aria-label="Clear Cart" title="Clear Cart">
+            <img src="../images/trashcan.png" alt="Clear Cart" class="trash-icon" />
+          </button>
+          <button id="checkoutBtn" class="checkout-btn" aria-label="Checkout" title="Checkout">
+            <img src="../images/cart.png" alt="Checkout" class="cart-icon" />
+          </button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div id="footercontainer"></div>
+
+  <script type="module">
+    import { loadHeaderFooter } from "../js/loadHeaderFooter.js";
+    loadHeaderFooter();
+  </script>
+</body>
+
+</html>

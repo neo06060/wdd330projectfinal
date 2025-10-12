@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Checkout</title>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body class="checkout-body">
+  <header id="headercontainer"></header>
+
+  <main class="checkout-page">
+    <div class="checkout-container">
+      <h2>Checkout</h2>
+
+      <form id="checkout-form">
+        <fieldset>
+          <legend>Customer Info</legend>
+          <label>First Name: <input type="text" name="fname" required></label>
+          <label>Last Name: <input type="text" name="lname" required></label>
+          <label>Street: <input type="text" name="street" required></label>
+          <label>City: <input type="text" name="city" required></label>
+          <label>State: <input type="text" name="state" required></label>
+          <label>Zip Code: <input type="text" name="zip" required></label>
+        </fieldset>
+
+        <fieldset>
+          <legend>Payment</legend>
+          <label>Credit Card Number: <input type="text" name="cardNumber" required></label>
+          <label>Expiration Date: <input type="text" name="expiration" placeholder="MM/YY" required></label>
+          <label>Security Code: <input type="text" name="code" required></label>
+        </fieldset>
+
+        <button type="submit">Place Order</button>
+      </form>
+
+      <div class="order-summary">
+        <h3>Order Summary</h3>
+        <p>Subtotal: <span id="subtotal">$0.00</span></p>
+        <p>Tax (6%): <span id="tax">$0.00</span></p>
+        <p>Shipping: <span id="shipping">$0.00</span></p>
+        <p><strong>Total: <span id="orderTotal">$0.00</span></strong></p>
+      </div>
+    </div>
+  </main>
+  <!-- <main class="divider"></main> -->
+  <footer id="footercontainer"></footer>
+
+  <script type="module">
+    import { loadHeaderFooter } from "../js/loadHeaderFooter.js";
+    loadHeaderFooter();
+  </script>
+
+  <script type="module" src="../js/CheckoutValidation.js"></script>
+</body>
+
+</html>

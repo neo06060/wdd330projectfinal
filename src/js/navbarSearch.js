@@ -17,7 +17,7 @@ let basePath;
 if (hostname === "127.0.0.1" || hostname === "localhost") {
   basePath = "/src/product_pages/"; // localhost
 } else if (hostname === "neo06060.github.io") {
-  basePath = "/wdd330new/src/product_pages/"; // GitHub Pages
+  basePath = "/wdd330projectfinal/src/product_pages/"; // GitHub Pages
 } else {
   basePath = "/src/product_pages/"; // fallback
 }
@@ -27,9 +27,7 @@ document.addEventListener("DOMContentLoaded", () => {
   if (!input) return;
 
   const jsonFiles = [
-    "./json/tents.json",
-    "./json/backpacks.json",
-    "./json/sleeping-bags.json"
+    "./json/clocks.json",
   ];
 
   input.addEventListener("keydown", async (e) => {

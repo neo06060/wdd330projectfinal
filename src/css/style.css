@@ -109,9 +109,6 @@ button {
   cursor: pointer;
 }
 
-.divider {
-  border-bottom: 2px solid var(--primary-color);
-}
 
 /* End utility classes */
 
@@ -624,4 +621,162 @@ main.checkout-page {
 .product-list,
 .product-list * {
   text-align: left;
+}
+
+.product-container {
+  display: flex;
+  gap: 2rem;
+  margin-top: 2rem;
+  flex-wrap: wrap;
+}
+
+.product-image img {
+  max-width: 350px;
+  width: 100%;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+.product-info {
+  flex: 1;
+  min-width: 280px;
+}
+
+.product-buttons {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.primary-btn, .secondary-btn {
+  padding: 0.6rem 1.2rem;
+  cursor: pointer;
+  border: none;
+  border-radius: 5px;
+}
+
+.primary-btn {
+  background: #333;
+  color: #fff;
+}
+
+.secondary-btn {
+  background: #555;
+  color: #fff;
+}
+
+.secondary-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.popup {
+  display: none;
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.popup.show {
+  display: flex;
+}
+
+.popup-content {
+  background: white;
+  padding: 2rem;
+  border-radius: 8px;
+  max-width: 500px;
+  width: 90%;
+}
+
+.piece-item {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+}
+
+.add-piece-btn {
+  background: #333;
+  color: #fff;
+  border: none;
+  padding: 0.3rem 0.6rem;
+  border-radius: 4px;
+  cursor: pointer;
+}
+/* Buttons inside .product-buttons should be centered in flex row */
+.product-buttons {
+  display: flex;
+  justify-content: center; /* center horizontally */
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+/* Remove the global button margin for product buttons */
+.product-buttons button {
+  margin: 0;
+}
+
+/* Ensure product images scale and show */
+.product-image img {
+  width: 100%;
+  max-width: 350px;
+  object-fit: contain; /* fit inside container without cropping */
+  display: block;
+  border-radius: 8px;
+}
+
+/* Piece images in popup */
+#pieceList img {
+  width: 50px;
+  height: auto;
+  object-fit: contain;
+  display: block;
+}
+#youtubePopup {
+  display: none;
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.6);
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+#youtubePopup.show {
+  display: flex;
+}
+
+#youtubePopup .popup-content {
+  position: relative;
+  width: 90%;
+  max-width: 800px;
+  background: #000;
+  border-radius: 10px;
+  aspect-ratio: 16/9; /* modern, simpler than padding-top hack */
+  overflow: hidden;
+}
+
+#youtubePopup iframe {
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+#closeYoutubePopup {
+  z-index: 10;
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 0.3rem 0.6rem;
+  cursor: pointer;
+  font-size: 1.2rem;
+  font-weight: bold;
 }
