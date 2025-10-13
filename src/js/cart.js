@@ -12,9 +12,10 @@ function resolveImageForCart(raw) {
     if (raw.startsWith("images/")) return "../" + raw;
     return raw;
   } catch {
-    return "../images/noun_Tent_2517.svg";
+    return "../images/choesee.png";
   }
 }
+
 function safeBrand(b) {
   if (!b) return "";
   if (typeof b === "string") return b;
@@ -23,6 +24,7 @@ function safeBrand(b) {
   }
   return String(b);
 }
+
 function normalizeItem(it) {
   const candidate = it?.Images?.[0]?.Url ?? it?.Image ?? it?.image ?? it?.img;
   return {
@@ -32,41 +34,57 @@ function normalizeItem(it) {
     quantity: Math.max(1, Number(it?.quantity || 1)),
   };
 }
+
 function migrateCart() {
   const arr = getLocalStorage("so-cart") || [];
-  let changed = false;
-  const fixed = arr.map(it => {
+  const merged = [];
+  const map = {};
+
+  arr.forEach(it => {
     const n = normalizeItem(it);
-    if (n.Image !== it.Image || n.Brand !== it.Brand || n.quantity !== it.quantity) changed = true;
-    return n;
+    const id = n.Id || n.id || n.Name; // unique key
+    if (map[id]) {
+      map[id].quantity += n.quantity;
+    } else {
+      map[id] = { ...n, id };
+      merged.push(map[id]);
+    }
   });
-  if (changed) setLocalStorage("so-cart", fixed);
-  return fixed;
+
+  setLocalStorage("so-cart", merged);
+  return merged;
 }
 
-/* ==== Rendu ==== */
+/* ==== Render cart ==== */
 function rowTemplate(item, idx) {
-  const color = item.Colors?.[0]?.ColorName || "N/A";
   const price = Number(item.FinalPrice ?? item.Price ?? 0);
   return /*html*/`
-    <li class="cart-card divider" data-index="${idx}">
-      <a class="cart-card__image" href="#">
+    <li class="cart-card vertical" data-id="${item.id}">
+      <div class="cart-card__name">
+        <h2 class="card__name">${item.Name}</h2>
+      </div>
+      <div class="cart-card__image">
         <img
           src="${item.Image}"
           alt="${item.Name}"
           onerror="this.onerror=null; this.src='../images/noun_Tent_2517.svg';"
         />
-      </a>
-      <a href="#" class="cart-card__name"><h2 class="card__name">${item.Name}</h2></a>
-      <p class="cart-card__color">${color}</p>
-      <p class="cart-card__brand">${item.Brand || "N/A"}</p>
-      <label class="cart-card__quantity">qty:
-        <input type="number" min="1" value="${item.quantity}" class="qty-input" />
-      </label>
-      <p class="cart-card__price">${formatMoney(price)}</p>
-      <button class="cart-remove">Remove</button>
+      </div>
+      <div class="cart-card__footer">
+        <p class="cart-card__price">${formatMoney(price * item.quantity)}</p>
+        <div class="cart-card__actions">
+          <label class="cart-card__quantity">
+            Qty:
+            <input type="number" min="1" value="${item.quantity}" class="qty-input" />
+          </label>
+          <button class="cart-remove" aria-label="Remove item" title="Remove item">
+            <img src="../images/trashcan.png" alt="Remove" class="trash-icon" />
+          </button>
+        </div>
+      </div>
     </li>`;
 }
+
 function render() {
   const listEl = document.querySelector(".product-list");
   const totalEl = document.querySelector(".cart-total");
@@ -84,41 +102,69 @@ function render() {
   if (emptyEl) emptyEl.hidden = true;
 
   listEl.innerHTML = items.map(rowTemplate).join("");
-  const total = items.reduce((s, it) => s + (Number(it.FinalPrice ?? it.Price ?? 0) * (it.quantity || 1)), 0);
+  const total = items.reduce((s, it) => s + (Number(it.FinalPrice ?? it.Price ?? 0) * it.quantity), 0);
   if (totalEl) totalEl.textContent = formatMoney(total);
   updateCartCount();
 
-  listEl.addEventListener("click", (e) => {
-    const btn = e.target.closest(".cart-remove");
-    if (!btn) return;
-    const li = btn.closest("li[data-index]");
-    const idx = Number(li?.dataset?.index);
-    const arr = getLocalStorage("so-cart") || [];
-    arr.splice(idx, 1);
-    setLocalStorage("so-cart", arr);
-    render();
-  }, { once: true });
+  // Remove button
+  listEl.querySelectorAll(".cart-remove").forEach(btn => {
+    btn.addEventListener("click", e => {
+      e.stopPropagation();
+      const li = btn.closest("li[data-id]");
+      const id = li.dataset.id;
+      const cart = getLocalStorage("so-cart") || [];
+      const newCart = cart.filter(i => String(i.id) !== id);
+      setLocalStorage("so-cart", newCart);
+      render();
+    });
+  });
 
-  listEl.addEventListener("change", (e) => {
-    const input = e.target.closest(".qty-input");
-    if (!input) return;
-    const li = input.closest("li[data-index]");
-    const idx = Number(li?.dataset?.index);
-    const qty = Math.max(1, Number(input.value || 1));
-    const arr = getLocalStorage("so-cart") || [];
-    if (arr[idx]) arr[idx].quantity = qty;
-    setLocalStorage("so-cart", arr);
-    render();
-  }, { once: true });
+  // Quantity change
+  listEl.querySelectorAll(".qty-input").forEach(input => {
+    input.addEventListener("change", e => {
+      const li = input.closest("li[data-id]");
+      const id = li.dataset.id;
+      const val = Math.max(1, Number(input.value || 1));
+      const cart = getLocalStorage("so-cart") || [];
+      const item = cart.find(i => String(i.id) === id);
+      if (item) item.quantity = val;
+      setLocalStorage("so-cart", cart);
+      render();
+    });
+  });
+
+  // Click to open popup
+  listEl.querySelectorAll(".cart-card.vertical").forEach(card => {
+    card.addEventListener("click", () => {
+      const id = card.dataset.id;
+      const item = items.find(i => String(i.id) === id);
+      if (!item) return;
+      const popup = document.getElementById("productPopup");
+      document.getElementById("popupTitle").textContent = item.Name;
+      document.getElementById("popupDesc").textContent = item.Description || "No description available";
+      popup.classList.add("show");
+    });
+  });
 }
 
-/* ==== Boutons globaux ==== */
+/* ==== Popup close ==== */
+document.addEventListener("DOMContentLoaded", () => {
+  const popup = document.getElementById("productPopup");
+  const closeBtn = document.getElementById("closePopup");
+  if (closeBtn) closeBtn.addEventListener("click", () => popup.classList.remove("show"));
+  if (popup) popup.addEventListener("click", e => { if (e.target === popup) popup.classList.remove("show"); });
+
+  render();
+  wireButtons();
+});
+
+/* ==== Buttons global ==== */
 function wireButtons() {
   const clearBtn = document.getElementById("clearCart");
   const checkoutBtn = document.getElementById("checkoutBtn");
 
   if (clearBtn) {
-    clearBtn.addEventListener("click", (e) => {
+    clearBtn.addEventListener("click", e => {
       e.preventDefault();
       if (confirm("Clear the cart?")) {
         setLocalStorage("so-cart", []);
@@ -126,18 +172,17 @@ function wireButtons() {
       }
     });
   }
+
   if (checkoutBtn) {
-    checkoutBtn.addEventListener("click", (e) => {
+    checkoutBtn.addEventListener("click", e => {
       e.preventDefault();
       const items = getLocalStorage("so-cart") || [];
-      if (!items.length) { alert("Your cart is empty."); return; }
-      // >>> ICI: ta page est dans src/cart/ <<<
+      if (!items.length) {
+        alert("Your cart is empty.");
+        return;
+      }
+      // Go to checkout page first
       window.location.href = "./checkout.html";
     });
   }
 }
-
-document.addEventListener("DOMContentLoaded", () => {
-  render();
-  wireButtons();
-});

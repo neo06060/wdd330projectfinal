@@ -54,12 +54,18 @@ function template(p) {
   const name = p.name ?? p.Name ?? "Unknown Clock";
   const maker = p.maker ?? "Unknown Maker";
   const year = p.year ?? "Unknown Year";
-  const pieces = p.pieces ?? ["piece1", "piece2", "piece3", "piece4"];
+  const pieces = p.pieces ?? ["Pendulum", "Gear A", "Spring", "Clock face"];
   const commonBroken = p.commonBroken ?? [];
   const youtubeLink = p.youtubeLink ?? p.youtube ?? "";
 
   const piecePrices = [29.99, 19.99, 14.99, 9.99];
-  const pieceMap = ["piece1", "piece2", "piece3", "piece4"];
+  const pieceMap = ["Pendulum", "Gear A", "Spring", "Clock face"];
+  const pieceDescriptions = {
+    "Pendulum": "A pendulum is a device made of a weight suspended from a pivot so that it can swing freely.[1] When a pendulum is displaced sideways from its resting, equilibrium position, it is subject to a restoring force due to gravity that will accelerate it back toward the equilibrium position.",
+    "Gear A": "A gear train or gear set is a machine element of a mechanical system formed by mounting two or more gears on a frame such that the teeth of the gears engage.\n\nGear teeth are designed to ensure the pitch circles of engaging gears roll on each other without slipping, providing a smooth transmission of rotation from one gear to the next.",
+    "Spring": "A mainspring is a spiral torsion spring of metal ribbon—commonly spring steel—used as a power source in mechanical watches, some clocks, and other clockwork mechanisms. Winding the timepiece, by turning a knob or key, stores energy in the mainspring by twisting the spiral tighter. The force of the mainspring then turns the clock's wheels as it unwinds, until the next winding is needed. The adjectives wind-up and spring-powered refer to mechanisms powered by mainsprings, which also include kitchen timers, metronomes, music boxes, wind-up toys and clockwork radios.",
+    "Clock face": "A clock face is the part of an analog clock (or watch) that displays time through the use of a flat dial with reference marks, and revolving pointers turning on concentric shafts at the center, called hands. In its most basic, globally recognized form, the periphery of the dial is numbered 1 through 12 indicating the hours in a 12-hour cycle, and a short hour hand makes two revolutions in a day. A long minute hand makes one revolution every hour. The face may also include a second hand, which makes one revolution per minute. The term is less commonly used for the time display on digital clocks and watches."
+  };
 
   const pieceList = pieces.map((piece, idx) => `
     <li class="piece-item">
@@ -67,7 +73,10 @@ function template(p) {
         <img src="${BASE_PATH}/src/images/pieces/${pieceMap[idx]}.png" alt="${piece}"/>
         <span>${piece} - $${piecePrices[idx].toFixed(2)}</span>
       </div>
-      <button class="add-piece-btn" data-piece="${pieceMap[idx]}" data-price="${piecePrices[idx]}">Add</button>
+      <button class="add-piece-btn" 
+              data-piece="${pieceMap[idx]}" 
+              data-price="${piecePrices[idx]}"
+              data-description="${pieceDescriptions[pieceMap[idx]]}">Add</button>
     </li>
   `).join("");
 
@@ -144,6 +153,7 @@ async function init() {
       if (e.target.tagName === "BUTTON") {
         const pieceName = e.target.dataset.piece;
         const piecePrice = parseFloat(e.target.dataset.price);
+        const pieceDesc = e.target.dataset.description; // <-- description
         const cart = getLocalStorage("so-cart") || [];
         cart.push({
           Id: `${p.id || p.Id}-${pieceName}`,
@@ -151,7 +161,8 @@ async function init() {
           Brand: safeBrand(p.Brand ?? p.brand),
           Image: `${BASE_PATH}/src/images/pieces/${pieceName}.png`,
           FinalPrice: piecePrice,
-          quantity: 1
+          quantity: 1,
+          Description: pieceDesc
         });
         setLocalStorage("so-cart", cart);
         updateCartCount();
