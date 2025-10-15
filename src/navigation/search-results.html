@@ -10,10 +10,11 @@
 
   <!-- HEADER (same as index.html) -->
   <header class="divider">
-    <div class="logo">
-      <img src="../images/logo2.png" alt="Old Clock" />
-      <a href="../../index.html"> Clockwork´s Heart</a>
-    </div>
+<div class="logo">
+  <img src="../images/logo2.png" alt="Old Clock" />
+  <a href="#" id="home-link"> Clockwork´s Heart</a>
+</div>
+
     <div class="search-container">
       <input type="text" id="navbarSearch" placeholder="Search products..." />
     </div>
@@ -35,5 +36,10 @@
 
   <script type="module" src="../js/navbarSearch.js"></script>
   <script type="module" src="../js/search-results.js"></script>
+  <script type="module">
+  import { getBasePath } from '../js/utils.mjs';
+  const basePath = getBasePath();
+  document.getElementById('home-link').href = basePath + 'index.html';
+</script>
 </body>
 </html>

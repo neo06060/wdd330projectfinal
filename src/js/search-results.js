@@ -1,7 +1,7 @@
+// search-results.js
 import { getBasePath, normalizeImageUrl } from './utils.mjs';
 
 const resultsContainer = document.getElementById("results");
-const basePath = getBasePath();
 
 function getQueryParam(name) {
   const urlParams = new URLSearchParams(window.location.search);
@@ -13,8 +13,8 @@ async function displayResults() {
   if (!query) return;
 
   try {
-    // Fetch clocks.json using dynamic basePath
-    const res = await fetch(`${basePath}src/json/clocks.json`);
+    // Use base path for JSON fetch
+    const res = await fetch(`${getBasePath()}json/clocks.json`);
     const clocks = await res.json();
 
     // Filter clocks with similar name
@@ -30,19 +30,17 @@ async function displayResults() {
       div.classList.add("result-item");
 
       // Normalize image URL
-      const imageUrl = normalizeImageUrl(basePath + clock.Images[0].Url.replace(/^\/+/, ''));
-
-      // Normalize product page URL
-      const pageUrl = basePath + clock.pageUrl.replace(/^\/+/, '');
+      const imageUrl = normalizeImageUrl(clock.Images[0].Url);
 
       div.innerHTML = `
         <img src="${imageUrl}" alt="${clock.name}">
         <span>${clock.name}</span>
       `;
 
+      // Use basePath for pageUrl so it works on GitHub and local
       div.addEventListener("click", () => {
-        if (pageUrl) {
-          window.location.href = pageUrl;
+        if (clock.pageUrl) {
+          window.location.href = `${getBasePath()}${clock.pageUrl.replace(/^\/+/, "")}`;
         }
       });
 
