@@ -22,7 +22,7 @@ fetch('src/json/clocks.json')
   })
   .catch(err => console.error('Error loading clocks database:', err));
 
-// Add message to chat (raw HTML)
+// Add message to chat
 function addMessage(text, sender) {
   const message = document.createElement('div');
   message.classList.add('chat-message', sender);
@@ -31,7 +31,7 @@ function addMessage(text, sender) {
   chatMessages.scrollTop = chatMessages.scrollHeight;
 }
 
-// Show typing indicator with bouncing dots
+// Typing indicator
 function showTypingIndicator(duration = 3000) {
   return new Promise((resolve) => {
     const typingBubble = document.createElement('div');
@@ -74,7 +74,7 @@ chatInput.addEventListener('keypress', (e) => {
   }
 });
 
-// Preprocess input for fuzzy search
+// Preprocess input
 function preprocess(text) {
   return text.toLowerCase()
              .replace(/[^a-z0-9\s]/g, '')
@@ -82,7 +82,7 @@ function preprocess(text) {
              .trim();
 }
 
-// Handle user messages with typing animation
+// Handle user messages
 async function handleUserMessage(text) {
   if (!fuse) {
     await showTypingIndicator();
@@ -93,20 +93,31 @@ async function handleUserMessage(text) {
   const processed = preprocess(text);
   const results = fuse.search(processed);
 
-  // Show typing animation before bot reply
-  await showTypingIndicator(2000); // 2 seconds
+  await showTypingIndicator(2000);
 
   if (results.length > 0) {
     const clock = results[0].item;
-    const reply =
-      `✅ We have **${clock.name}** in our database.<br>` +
-      `Click <a href="${clock.pageUrl}" target="_blank" style="text-decoration: underline;">here</a> to go to the product page.`;
+
+    // Determine relative path to product_pages
+    const currentPath = window.location.pathname;
+    let productBase;
+    if (currentPath.includes("/src/")) {
+      productBase = "../product_pages/"; // local
+    } else {
+      productBase = "src/product_pages/"; // GitHub Pages
+    }
+
+    const productPageUrl = `${productBase}${clock.pageUrl.split("/").pop()}`;
+
+    const reply = 
+      `✅ We have <strong>${clock.name}</strong> in our database.<br>` +
+      `Click <a href="${productPageUrl}" target="_blank" style="text-decoration: underline;">here</a> to go to the product page.`;
+
     addMessage(reply, 'bot');
   } 
   else if (processed.includes('clock') || /clock/i.test(text)) {
     const cleanedText = text.trim().replace(/[?!.]$/, '');
-    const searchQuery = cleanedText.toLowerCase().includes('clock') ? cleanedText : cleanedText + " clock";
-    const googleUrl = `https://www.google.com/search?q=${encodeURIComponent(searchQuery)}`;
+    const googleUrl = `https://www.google.com/search?q=${encodeURIComponent(cleanedText)}`;
 
     addMessage(
       `🕰️ Sorry, we don't have that clock. You can search for it on Google here: ` +

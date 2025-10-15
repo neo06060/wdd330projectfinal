@@ -1,5 +1,4 @@
 // navbarSearch.js
-
 document.addEventListener("DOMContentLoaded", () => {
   const input = document.getElementById("navbarSearch");
   if (!input) return;
@@ -10,18 +9,19 @@ document.addEventListener("DOMContentLoaded", () => {
       const query = input.value.trim();
       if (!query) return;
 
-      // Determine base path depending on environment
-      const hostname = window.location.hostname;
+      // Determine relative path to search-results.html
+      const currentPath = window.location.pathname;
       let basePath;
-      if (hostname === "127.0.0.1" || hostname === "localhost") {
-        basePath = "/src/navigation/"; // localhost
-      } else if (hostname === "neo06060.github.io") {
-        basePath = "/wdd330projectfinal/src/navigation/"; // GitHub Pages
+
+      if (currentPath.includes("/src/")) {
+        // Local dev
+        basePath = "../navigation/";
       } else {
-        basePath = "/src/navigation/"; // fallback
+        // GitHub Pages
+        basePath = "src/navigation/";
       }
 
-      // Redirect to search-results.html with query
+      // Redirect with query
       window.location.href = `${basePath}search-results.html?query=${encodeURIComponent(query)}`;
     }
   });
