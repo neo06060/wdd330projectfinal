@@ -1,9 +1,8 @@
-// search-results.js
 import { getBasePath, normalizeImageUrl } from './utils.mjs';
 
 const resultsContainer = document.getElementById("results");
+const basePath = getBasePath();
 
-// Get the query parameter from URL
 function getQueryParam(name) {
   const urlParams = new URLSearchParams(window.location.search);
   return urlParams.get(name);
@@ -14,14 +13,12 @@ async function displayResults() {
   if (!query) return;
 
   try {
-    // Fetch clocks.json with correct base path
-    const res = await fetch(`${getBasePath()}src/json/clocks.json`);
+    // Fetch clocks.json using dynamic basePath
+    const res = await fetch(`${basePath}src/json/clocks.json`);
     const clocks = await res.json();
 
-    // Filter clocks whose name includes the search query
-    const matches = clocks.filter(clock =>
-      clock.name.toLowerCase().includes(query)
-    );
+    // Filter clocks with similar name
+    const matches = clocks.filter(clock => clock.name.toLowerCase().includes(query));
 
     if (matches.length === 0) {
       resultsContainer.innerHTML = `<div class="no-results">No clocks were found</div>`;
@@ -33,19 +30,19 @@ async function displayResults() {
       div.classList.add("result-item");
 
       // Normalize image URL
-      const imageUrl = normalizeImageUrl(clock.Images?.[0]?.Url);
+      const imageUrl = basePath + normalizeImageUrl(clock.Images[0].Url.replace(/^\/+/, ''));
+
+      // Normalize product page URL
+      const pageUrl = basePath + clock.pageUrl.replace(/^\/+/, '');
 
       div.innerHTML = `
         <img src="${imageUrl}" alt="${clock.name}">
         <span>${clock.name}</span>
       `;
 
-      // Redirect to the correct product page
       div.addEventListener("click", () => {
-        if (clock.pageUrl) {
-          // Remove leading slash and prepend base path
-          const path = clock.pageUrl.replace(/^\/+/, "");
-          window.location.href = `${getBasePath()}${path}`;
+        if (pageUrl) {
+          window.location.href = pageUrl;
         }
       });
 

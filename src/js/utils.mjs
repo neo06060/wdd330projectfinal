@@ -23,15 +23,16 @@ export function formatMoney(n) {
 
 // normalize image URLs to usable paths
 export function normalizeImageUrl(raw) {
-  if (!raw) return "/images/banner-sm.jpg";
+  if (!raw) return "images/banner-sm.jpg"; // remove leading slash
   try {
-    if (/^data:/.test(raw) || /^https?:\/\//i.test(raw) || raw.startsWith("/")) return raw;
-    if (/^images\//i.test(raw)) return "/" + raw;
+    if (/^data:/.test(raw) || /^https?:\/\//i.test(raw)) return raw; // removed raw.startsWith("/")
+    if (/^images\//i.test(raw)) return raw;
     const i = raw.indexOf("/images/");
-    if (i !== -1) return raw.slice(i);
+    if (i !== -1) return raw.slice(i + 1); // remove leading slash
     return raw;
-  } catch { return "/images/banner-sm.jpg"; }
+  } catch { return "images/banner-sm.jpg"; }
 }
+
 
 // update cart badge
 export function updateCartCount() {
