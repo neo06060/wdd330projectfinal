@@ -1,42 +1,46 @@
 [
-{
-  "id": "1111A",
-  "name": "Gustav Becker wall clock (1885 model)",
-  "maker": "Gustav Becker",
-  "year": "1890",
-  "pieces": ["Pendulum", "Gear A", "Spring", "Clock Face"],
-  "commonBroken": ["Pendulum", "Spring"],
-  "Images": [{"Url": "/src/images/clocks/clock1.png"}],
-  "youtubeLink": "https://www.youtube.com/watch?v=sB_h52na90Q"
-},
-{
-  "id": "1112A",
-  "name": "Seth Thomas OGEE mantel clock",
-  "maker": "Seth Thomas",
-  "year": "1890",
-  "pieces": ["Pendulum", "Gear A", "Spring", "Clock Face"],
-  "commonBroken": ["Gear A", "Spring"],
-  "Images": [{"Url": "/src/images/clocks/clock2.jpg"}],
-  "youtubeLink": "https://www.youtube.com/watch?v=pZwDfIW64vE"
-},
-{
-  "id": "1113A",
-  "name": "Junghans German wall callendar clock",
-  "maker": "Junghans",
-  "year": "1890",
-  "pieces": ["Pendulum", "Gear A", "Spring", "Clock Face"],
-  "commonBroken": ["Pendulum", "Clock Face"],
-  "Images": [{"Url": "/src/images/clocks/clock3.png"}],
-  "youtubeLink": "https://www.youtube.com/watch?v=eGuTiZkVzZI"
-},
-{
-  "id": "1114A",
-  "name": "Ansonia American wall clock",
-  "maker": "John Smith",
-  "year": "1890",
-  "pieces": ["Pendulum", "Gear A", "Spring", "Clock Face"],
-  "commonBroken": ["Clock Face", "Gear A"],
-  "Images": [{"Url": "/src/images/clocks/clock4.jpg"}],
-  "youtubeLink": "https://www.youtube.com/watch?v=fd56yFDm384"
-}
+  {
+    "id": "1111A",
+    "name": "Gustav Becker wall clock (1885 model)",
+    "maker": "Gustav Becker",
+    "year": "1890",
+    "pieces": ["Pendulum", "Gear A", "Spring", "Clock Face"],
+    "commonBroken": ["Pendulum", "Spring"],
+    "Images": [{"Url": "/src/images/clocks/clock1.png"}],
+    "youtubeLink": "https://www.youtube.com/watch?v=sB_h52na90Q",
+    "pageUrl": "/src/product_pages/gustavbeckerwall.html?product=1111A"
+  },
+  {
+    "id": "1112A",
+    "name": "Seth Thomas OGEE mantel clock",
+    "maker": "Seth Thomas",
+    "year": "1890",
+    "pieces": ["Pendulum", "Gear A", "Spring", "Clock Face"],
+    "commonBroken": ["Gear A", "Spring"],
+    "Images": [{"Url": "/src/images/clocks/clock2.jpg"}],
+    "youtubeLink": "https://www.youtube.com/watch?v=pZwDfIW64vE",
+    "pageUrl": "/src/product_pages/seththomasclock.html?product=1112A"
+  },
+  {
+    "id": "1113A",
+    "name": "Junghans German wall callendar clock",
+    "maker": "Junghans",
+    "year": "1890",
+    "pieces": ["Pendulum", "Gear A", "Spring", "Clock Face"],
+    "commonBroken": ["Pendulum", "Clock Face"],
+    "Images": [{"Url": "/src/images/clocks/clock3.png"}],
+    "youtubeLink": "https://www.youtube.com/watch?v=eGuTiZkVzZI",
+    "pageUrl": "/src/product_pages/junghansgermancalendar.html?product=1113A"
+  },
+  {
+    "id": "1114A",
+    "name": "Ansonia American wall clock",
+    "maker": "John Smith",
+    "year": "1890",
+    "pieces": ["Pendulum", "Gear A", "Spring", "Clock Face"],
+    "commonBroken": ["Clock Face", "Gear A"],
+    "Images": [{"Url": "/src/images/clocks/clock4.jpg"}],
+    "youtubeLink": "https://www.youtube.com/watch?v=fd56yFDm384",
+    "pageUrl": "/src/product_pages/ansoniaamerican.html?product=1114A"
+  }
 ]

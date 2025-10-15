@@ -9,11 +9,27 @@
   <script type="module" src="src/js/main.js"></script>
   <script type="module" src="src/js/navbarSearch.js"></script>
   <script type="module" src="src/js/chat.js"></script>
+  <script type="module" src="src/js/sideAds.js"></script>
   <link rel="icon" type="image/png" href="src/images/favicon.png" />
 </head>
+
 <body class="index-page">
-  <div class="side-ad left">Ad Space</div>
-  <div class="side-ad right">Ad Space</div>
+
+  <!-- LEFT SIDE AD -->
+  <div class="side-ad left">
+    <a href="https://example.com/parody1" target="_blank">
+      <img src="https://mir-s3-cdn-cf.behance.net/project_modules/disp/1a4acb72962375.5bf998731ce06.jpg" alt="Left Parody Ad">
+    </a>
+  </div>
+
+  <!-- RIGHT SIDE AD -->
+  <div class="side-ad right">
+    <a href="https://web.archive.org/web/20180429111625/http://www.adultswim.com/promotions/claridryl" target="_blank">
+      <img src="https://web.archive.org/web/20150318082410im_/http://www.adultswim.com/promotions/claridryl/img/phone.jpg" alt="Right Parody Ad">
+    </a>
+  </div>
+
+  <!-- HEADER -->
   <header class="divider">
     <div class="logo">
       <img src="src/images/logo2.png" alt="Old Clock" />
@@ -24,19 +40,26 @@
     </div>
     <div class="cart">
       <a href="src/cart/index.html">
-        <img src="src/images/cart.png">
+        <img src="src/images/cart.png" alt="Cart">
       </a>
     </div>
   </header>
+
+  <!-- MAIN CONTENT -->
   <main class="divider">
+    <!-- HERO SECTION -->
     <div class="hero">
       <img src="panoramic.jpg" alt="image of a lot of clocks" />
       <div class="mission">
         <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque numquam nisi voluptatum, porro iste voluptates eos tempore laborum ab, harum soluta amet, corrupti esse recusandae odio corporis hic animi aliquam!
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque numquam nisi voluptatum, porro iste
+          voluptates eos tempore laborum ab, harum soluta amet, corrupti esse recusandae odio corporis hic animi
+          aliquam!
         </p>
       </div>
     </div>
+
+    <!-- PRODUCTS SECTION -->
     <section class="products">
       <h2>Most common products ordered</h2>
       <div class="divider"></div>
@@ -59,7 +82,7 @@
         </li>
         <li class="product-card">
           <a href="src/product_pages/junghansgermancalendar.html?product=1113A">
-            <img src="src/images/clocks/clock3.png" alt="Junghans German Callendar clock" />
+            <img src="src/images/clocks/clock3.png" alt="Junghans German Calendar clock" />
             <h3 class="card__brand">Junghans</h3>
             <h2 class="card__name">German wall calendar clock</h2>
             <p class="product-card__price">$349.99</p>
@@ -75,10 +98,10 @@
         </li>
       </ul>
     </section>
+
   </main>
-  <footer id="main-footer">
-    &copy;2025 🕰️ Clockwork´s heart, we keep it classy as allways🕰️
-  </footer>
+
+  <!-- CHAT WIDGET -->
   <div class="chat-widget">
     <button id="chat-toggle">Need help? Click here!</button>
     <div class="chat-box" id="chat-box">
@@ -90,5 +113,22 @@
       <input type="text" id="chat-input" placeholder="Type your question..." />
     </div>
   </div>
+
+  <!-- FOOTER -->
+  <footer id="main-footer">
+    &copy; 2025 🕰️ Clockwork´s Heart, we keep it classy as always 🕰️
+    <div class="quick-links">
+      <a href="https://www.facebook.com/" target="_blank">
+        <img src="src/images/icons/facebook.png" alt="Facebook">
+      </a>
+      <a href="https://www.google.com/maps/search/Clock+shops+near+me" target="_blank">
+        <img src="src/images/icons/location.png" alt="Locate nearest shop">
+      </a>
+      <a href="https://www.reddit.com/r/clocks/" target="_blank">
+        <img src="src/images/icons/reddit.png" alt="Clock forum on Reddit">
+      </a>
+    </div>
+  </footer>
+
 </body>
 </html>
