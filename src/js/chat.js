@@ -100,7 +100,6 @@ async function handleUserMessage(text) {
     const clock = results[0].item;
     const reply = `
       ✅ We have <strong>${clock.name}</strong> in our database.<br>
-      <img src="${clock.Images[0].Url}" alt="${clock.name}" style="width:100%;max-width:200px;margin:5px 0;"><br>
       Click <a href="${clock.pageUrl}" target="_blank" style="text-decoration: underline;">here</a> to go to the product page.
     `;
     addMessage(reply, 'bot');
