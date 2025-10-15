@@ -1,4 +1,7 @@
+import { getBasePath, normalizeImageUrl } from './utils.mjs';
+
 const resultsContainer = document.getElementById("results");
+const basePath = getBasePath();
 
 function getQueryParam(name) {
   const urlParams = new URLSearchParams(window.location.search);
@@ -10,7 +13,8 @@ async function displayResults() {
   if (!query) return;
 
   try {
-    const res = await fetch("../json/clocks.json");
+    // Fetch clocks.json using dynamic basePath
+    const res = await fetch(`${basePath}src/json/clocks.json`);
     const clocks = await res.json();
 
     // Filter clocks with similar name
@@ -25,18 +29,20 @@ async function displayResults() {
       const div = document.createElement("div");
       div.classList.add("result-item");
 
-      // Use the URL directly from JSON
-      const imageUrl = clock.Images[0].Url;
+      // Normalize image URL
+      const imageUrl = normalizeImageUrl(basePath + clock.Images[0].Url.replace(/^\/+/, ''));
+
+      // Normalize product page URL
+      const pageUrl = basePath + clock.pageUrl.replace(/^\/+/, '');
 
       div.innerHTML = `
         <img src="${imageUrl}" alt="${clock.name}">
         <span>${clock.name}</span>
       `;
 
-      // Click redirects to the product page (requires pageUrl in clocks.json)
       div.addEventListener("click", () => {
-        if (clock.pageUrl) {
-          window.location.href = clock.pageUrl;
+        if (pageUrl) {
+          window.location.href = pageUrl;
         }
       });
 
