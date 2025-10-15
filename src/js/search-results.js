@@ -29,10 +29,10 @@ async function displayResults() {
       const div = document.createElement("div");
       div.classList.add("result-item");
 
-      // Normalize image URL
+      // Smart normalization prevents double paths
       const imageUrl = basePath + normalizeImageUrl(clock.Images[0].Url.replace(/^\/+/, ''));
 
-      // Normalize product page URL
+      // Construct product page URL relative to basePath
       const pageUrl = basePath + clock.pageUrl.replace(/^\/+/, '');
 
       div.innerHTML = `

@@ -23,16 +23,17 @@ export function formatMoney(n) {
 
 // normalize image URLs to usable paths
 export function normalizeImageUrl(raw) {
-  if (!raw) return "images/banner-sm.jpg"; // remove leading slash
-  try {
-    if (/^data:/.test(raw) || /^https?:\/\//i.test(raw)) return raw; // removed raw.startsWith("/")
-    if (/^images\//i.test(raw)) return raw;
-    const i = raw.indexOf("/images/");
-    if (i !== -1) return raw.slice(i + 1); // remove leading slash
-    return raw;
-  } catch { return "images/banner-sm.jpg"; }
-}
+  if (!raw) return "images/banner-sm.jpg";
 
+  // Keep external or data URLs intact
+  if (/^https?:\/\//i.test(raw) || /^data:/.test(raw)) return raw;
+
+  // If the path already contains src/images/clocks/, leave it as-is
+  if (raw.includes('src/images/clocks/')) return raw.replace(/^\/+/, '');
+
+  // Otherwise, prepend the standard folder path
+  return 'src/images/clocks/' + raw.replace(/^\/+/, '');
+}
 
 // update cart badge
 export function updateCartCount() {
