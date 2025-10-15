@@ -1,4 +1,5 @@
-// navbarSearch.js
+import { getBasePath } from './utils.mjs';
+
 document.addEventListener("DOMContentLoaded", () => {
   const input = document.getElementById("navbarSearch");
   if (!input) return;
@@ -9,20 +10,9 @@ document.addEventListener("DOMContentLoaded", () => {
       const query = input.value.trim();
       if (!query) return;
 
-      // Determine relative path to search-results.html
-      const currentPath = window.location.pathname;
-      let basePath;
-
-      if (currentPath.includes("/src/")) {
-        // Local dev
-        basePath = "../navigation/";
-      } else {
-        // GitHub Pages
-        basePath = "../src/navigation/";
-      }
-
-      // Redirect with query
-      window.location.href = `${basePath}search-results.html?query=${encodeURIComponent(query)}`;
+      const basePath = getBasePath();
+      // Redirect to search-results.html with query
+      window.location.href = `${basePath}src/navigation/search-results.html?query=${encodeURIComponent(query)}`;
     }
   });
 });

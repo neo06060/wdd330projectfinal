@@ -1,4 +1,5 @@
 import Fuse from 'https://cdn.jsdelivr.net/npm/fuse.js@6.6.2/dist/fuse.esm.min.js';
+import { getBasePath, normalizeImageUrl } from './utils.mjs';
 
 const chatToggle = document.getElementById('chat-toggle');
 const chatBox = document.getElementById('chat-box');
@@ -9,20 +10,21 @@ const chatMessages = document.getElementById('chat-messages');
 let hasWelcomed = false;
 let clocksData = [];
 let fuse;
+const basePath = getBasePath();
 
 // Load clocks.json
-fetch('src/json/clocks.json')
+fetch(`${basePath}src/json/clocks.json`)
   .then(response => response.json())
   .then(data => {
-    clocksData = data;
-    fuse = new Fuse(clocksData, {
-      keys: ['name', 'maker'],
-      threshold: 0.5
-    });
+    clocksData = data.map(c => ({
+      ...c,
+      pageUrl: basePath + c.pageUrl.replace(/^\/+/, ''),
+      Images: c.Images.map(img => ({ Url: normalizeImageUrl(basePath + img.Url.replace(/^\/+/, '')) }))
+    }));
+    fuse = new Fuse(clocksData, { keys: ['name', 'maker'], threshold: 0.5 });
   })
   .catch(err => console.error('Error loading clocks database:', err));
 
-// Add message to chat
 function addMessage(text, sender) {
   const message = document.createElement('div');
   message.classList.add('chat-message', sender);
@@ -31,7 +33,6 @@ function addMessage(text, sender) {
   chatMessages.scrollTop = chatMessages.scrollHeight;
 }
 
-// Typing indicator
 function showTypingIndicator(duration = 3000) {
   return new Promise((resolve) => {
     const typingBubble = document.createElement('div');
@@ -64,7 +65,7 @@ chatClose.addEventListener('click', () => {
   chatToggle.style.display = 'block';
 });
 
-// Listen for user input
+// User input
 chatInput.addEventListener('keypress', (e) => {
   if (e.key === 'Enter' && chatInput.value.trim() !== '') {
     const userText = chatInput.value.trim();
@@ -74,7 +75,6 @@ chatInput.addEventListener('keypress', (e) => {
   }
 });
 
-// Preprocess input
 function preprocess(text) {
   return text.toLowerCase()
              .replace(/[^a-z0-9\s]/g, '')
@@ -82,7 +82,6 @@ function preprocess(text) {
              .trim();
 }
 
-// Handle user messages
 async function handleUserMessage(text) {
   if (!fuse) {
     await showTypingIndicator();
@@ -97,35 +96,20 @@ async function handleUserMessage(text) {
 
   if (results.length > 0) {
     const clock = results[0].item;
-
-    // Determine relative path to product_pages
-    const currentPath = window.location.pathname;
-    let productBase;
-    if (currentPath.includes("/src/")) {
-      productBase = "../product_pages/"; // local
-    } else {
-      productBase = "../src/product_pages/"; // GitHub Pages
-    }
-
-    const productPageUrl = `${productBase}${clock.pageUrl.split("/").pop()}`;
-
-    const reply = 
-      `✅ We have <strong>${clock.name}</strong> in our database.<br>` +
-      `Click <a href="${productPageUrl}" target="_blank" style="text-decoration: underline;">here</a> to go to the product page.`;
-
+    const reply = `
+      ✅ We have <strong>${clock.name}</strong> in our database.<br>
+      <img src="${clock.Images[0].Url}" alt="${clock.name}" style="width:100%;max-width:200px;margin:5px 0;"><br>
+      Click <a href="${clock.pageUrl}" target="_blank" style="text-decoration: underline;">here</a> to go to the product page.
+    `;
     addMessage(reply, 'bot');
-  } 
-  else if (processed.includes('clock') || /clock/i.test(text)) {
+  } else if (processed.includes('clock') || /clock/i.test(text)) {
     const cleanedText = text.trim().replace(/[?!.]$/, '');
     const googleUrl = `https://www.google.com/search?q=${encodeURIComponent(cleanedText)}`;
-
     addMessage(
-      `🕰️ Sorry, we don't have that clock. You can search for it on Google here: ` +
-      `<a href="${googleUrl}" target="_blank" style="text-decoration: underline;">${cleanedText}</a>`,
+      `🕰️ Sorry, we don't have that clock. You can search for it on Google here: <a href="${googleUrl}" target="_blank" style="text-decoration: underline;">${cleanedText}</a>`,
       'bot'
     );
-  } 
-  else {
+  } else {
     addMessage("❌ Sorry, I only answer questions about old clocks.", 'bot');
   }
 }
