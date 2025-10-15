@@ -19,7 +19,9 @@ fetch(`${basePath}src/json/clocks.json`)
     clocksData = data.map(c => ({
       ...c,
       pageUrl: basePath + c.pageUrl.replace(/^\/+/, ''),
-      Images: c.Images.map(img => ({ Url: normalizeImageUrl(basePath + img.Url.replace(/^\/+/, '')) }))
+      Images: c.Images.map(img => ({
+        Url: basePath + normalizeImageUrl(img.Url.replace(/^\/+/, ''))
+      }))
     }));
     fuse = new Fuse(clocksData, { keys: ['name', 'maker'], threshold: 0.5 });
   })
