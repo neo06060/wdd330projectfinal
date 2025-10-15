@@ -104,7 +104,7 @@ async function handleUserMessage(text) {
     if (currentPath.includes("/src/")) {
       productBase = "../product_pages/"; // local
     } else {
-      productBase = "src/product_pages/"; // GitHub Pages
+      productBase = "../src/product_pages/"; // GitHub Pages
     }
 
     const productPageUrl = `${productBase}${clock.pageUrl.split("/").pop()}`;

@@ -18,7 +18,7 @@ document.addEventListener("DOMContentLoaded", () => {
         basePath = "../navigation/";
       } else {
         // GitHub Pages
-        basePath = "src/navigation/";
+        basePath = "../src/navigation/";
       }
 
       // Redirect with query
